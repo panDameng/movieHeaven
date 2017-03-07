@@ -1,0 +1,82 @@
+extends ../layout
+//- {
+//-     "_id" : 1,
+//-     "director" : "新海诚",
+//-     "country" : "日本",
+//-     "title" : "你的名字",
+//-     "year" : "2016",
+//-     "poster" : "http://i0.hdslb.com/bfs/archive/530a927474fe98c4218f1cd5a528f4fb73336e94.png",
+//-     "language" : "日语",
+//-     "flash" : "http://v.youku.com/v_show/id_XMTg2MDY3OTkwNA==.html",
+//-     "summary" : "《你的名字》是由新海诚执导的一部日本动画电影，由神木隆之介、上白石萌音担任主要配音演员，人设是由参与过《我们仍未知道那天所看见的花的名字。》的田中将贺担当，作画导演由曾创作过《千与千寻》、《幽灵公主》的安藤雅司执笔。作品于2016年8月26日在日本上映。中国内地于2016年12月2日上映，分为日语原声中文字幕版和中文配音版2种版本。作品讲述了男女高中生在梦中相遇的幻想故事。",
+//-     "meta" : {
+//-         "creatAt" : "",
+//-         "update" : "",
+//-         "updateAt" : ISODate("2017-02-13T14:12:38.300Z")
+//-     }
+//- }
+block content
+	.container
+		.row
+			//-enctype="multipart/form-data" 将数据分隔，从而实现不同数据混合上传
+			form.form-horizontal(method="post", action="/admin/movie",enctype="multipart/form-data")
+				//- if movie._id
+				input(type="hidden", name="movie[_id]", value="#{movie._id}")
+				.form-group
+					label.col-sm-2.control-label 豆瓣同步
+					.col-sm-10
+						input#douban.form-control(type="text")
+				.form-group
+					label.col-sm-2.control-label(for="inputCategory") 电影分类
+					.col-sm-10
+						input#inputCategory.form-control(type="text", name="movie[categoryName]", value=movie.categoryName)
+				.form-group
+					label.col-sm-2.control-label 分类选择			
+					each cat in categories
+						label.radio-inline
+							if movie._id
+								input(type="radio", name="movie[category]", value="#{cat._id}" checked=cat._id.toString()==movie.category.toString()) 
+								| #{cat.name}
+							else
+								input(type="radio", name="movie[category]", value="#{cat._id}")
+								| #{cat.name}
+				.form-group
+					label.col-sm-2.control-label(for="inputTitle") 电影名字
+					.col-sm-10
+						input#inputTitle.form-control(type="text", name="movie[title]", value="#{movie.title}")
+				.form-group
+					label.col-sm-2.control-label(for="inputDirector") 电影导演
+					.col-sm-10
+						input#inputDirector.form-control(type="text", name="movie[director]", value="#{movie.director}")
+				.form-group
+					label.col-sm-2.control-label(for="inputCountry") 国家
+					.col-sm-10
+						input#inputCountry.form-control(type="text", name="movie[country]", value="#{movie.country}")
+				.form-group
+					label.col-sm-2.control-label(for="inputLanguage") 语言
+					.col-sm-10
+						input#inputLanguage.form-control(type="text", name="movie[language]", value="#{movie.language}")
+				.form-group
+					label.col-sm-2.control-label(for="inputPoster") 海报地址
+					.col-sm-10
+						input#inputPoster.form-control(type="text", name="movie[poster]", value="#{movie.poster}")
+				.form-group
+					label.col-sm-2.control-label(for="uploadPoster") 海报上传
+					.col-sm-10
+						input#uploadPoster(type="file", name="uploadPoster")
+				.form-group
+					label.col-sm-2.control-label(for="inputFlash") 片源地址
+					.col-sm-10
+						input#inputFlash.form-control(type="text", name="movie[flash]", value="#{movie.flash}")
+				.form-group
+					label.col-sm-2.control-label(for="inputYear") 上映年代
+					.col-sm-10
+						input#inputYear.form-control(type="text", name="movie[year]", value="#{movie.year}")
+				.form-group
+					label.col-sm-2.control-label(for="inputSummary") 电影简介
+					.col-sm-10
+						textarea#inputSummary.form-control(type="text", name="movie[summary]") #{movie.summary}
+				.form-group
+					.col-sm-offset-2.col-sm-10
+					button.btn.btn-success(type="submit") 录入
+	script(src="/js/admin.js")
