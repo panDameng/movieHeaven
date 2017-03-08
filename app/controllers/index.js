@@ -21,7 +21,7 @@ exports.search = function(req, res){//配置路由 分类搜索页
 	var catId = req.query.cat;
 	var q = req.query.q;
 	var page = parseInt(req.query.p, 10) || 0;
-	var count = 2;
+	var count = 6;//设置每页6份数据
 	var index = page * count;//页数乘以条数
 
 	if(catId) {//不是通过搜索进来的电影，而是直接点击电影类型进入
@@ -44,7 +44,7 @@ exports.search = function(req, res){//配置路由 分类搜索页
 					keyword:category.name,
 					query:'cat=' + catId,
 					currentPage:(page + 1),
-					totalPage:Math.ceil(movies.length / 2),//对得到数据向上取整
+					totalPage:Math.ceil(movies.length / count),//对得到数据向上取整
 					movies:results
 				})
 			})
