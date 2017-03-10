@@ -1,15 +1,15 @@
 .container
 	.row
-		.page-header.clearfix
 		h1 #{title}
+		.page-header.clearfix
 		.col-md-4
 			small 二次元动漫迷
 		.col-md-8
 			form(method="GET", action="/results")
 				.input-group.col-sm-4.pull-right
-					input.form-control(type="text", name="q")
+					input.form-control(type="text", name="q", value="输入电影名称",onfocus="this.value='';this.focus()")
 					span.input-group-btn
-						button.btn.btn-default(type='submit') 搜索
+						button.btn.btn-success(type='submit') 搜索
 .navbar.navbar-default.navbar-fixed-bottom
 	.container
 		.navbar-header

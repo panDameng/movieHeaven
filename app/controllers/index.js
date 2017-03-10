@@ -4,7 +4,7 @@ var Category = require('../models/category.js');
 exports.index = function(req, res){//配置路由 index页
 	Category
 		.find({})
-		.populate({path:'movies', options:{limit:5}})//限制电影显示数为5
+		.populate({path:'movies', options:{limit:6}})//限制电影显示数为6
 		.exec(function(err, categories){
 			if(err){
 				console.log(err);
