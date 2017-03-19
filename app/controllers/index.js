@@ -31,7 +31,7 @@ exports.search = function(req, res){//配置路由 分类搜索页
 				path:'movies', 
 				select:'title poster'
 				// options:{limit:2, skip:index}
-			})//限制电影显示数为5,从第index条开始查
+			})//限制电影显示数为6,从第index条开始查
 			.exec(function(err, categories){
 				if(err){
 					console.log(err);

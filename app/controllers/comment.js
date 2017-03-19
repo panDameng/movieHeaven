@@ -17,6 +17,7 @@ exports.save = function(req, res){
 				if(err){
 					console.log(err);
 				}
+				// res.json(comment);
 				res.redirect('/movie/' + movieId);
 			})
 		})
