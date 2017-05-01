@@ -8,6 +8,10 @@ var UserSchema = new mongoose.Schema({
 		type:String
 	},
 	password:String,
+	head:{
+		type:String,
+		default:'icon-head.png'
+	},
 	role:{//0:normal user,1:verified user 认证,2:professional user信息完备 >10:admin >50superadmin
 		type:Number,
 		default:0
@@ -62,8 +66,11 @@ UserSchema.statics = {//静态方法模型便可以调用的方法
 	fetch: function(cb){//取出数据库中所有的数据
 		return this.find({}).sort('meta.updateAt').exec(cb);
 	},
-	findById: function(id, cb){//取出数据库中所有的数据
+	findById: function(id, cb){//取出数据库中相应id数据
 		return this.findOne({_id:id}).exec(cb);
+	},
+	findByName:function(name, cb){//根据用户名取得相应数据
+		return this.findOne({name:name}).exec(cb);
 	},
 	gainMaxId:function(cb){
 		return this.find({}).sort({"_id": -1}).limit(1).exec(cb);

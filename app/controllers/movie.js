@@ -14,9 +14,10 @@ exports.detail = function(req, res){
 	})
 	Movie.findById(id, function(err, movie){
 		Comment
-			.find({movie:id})
+			.find({movie:id})//妙用populate 与数据库关系ref，就能在其他文档嵌入id的情况下获得该id相关的其他数据
 			.populate('from', 'name')
-			.populate('reply.from reply.to', 'name')
+			.populate('from', 'head')
+			.populate('reply.from reply.to', 'name head')//name 和head分行写就不行，待我查api
 			.exec(function(err, comments){
 				console.log(comments);
 				res.render('detail', {
@@ -86,9 +87,10 @@ exports.savePoster = function(req, res, next){
 			var type = posterData.type.split('/')[1];//获得文件的类型
 			var poster = timestamp + '.' + type;
 			//生成一个服务器存图片的地址,_dirname为当前文件所在目录，存入后者目录
-			var newPath = path.join(__dirname, '../../', '/public/upload/' + poster);//上上层目录
+			var newPath = path.join(__dirname, '../../', '/public/upload/poster/' + poster);//上上层目录
 			fs.writeFile(newPath, data, function(err){
 				req.poster = poster;//将poster存到request上
+				console.log(poster);
 				next();
 			})
 

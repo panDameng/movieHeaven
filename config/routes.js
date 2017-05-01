@@ -21,7 +21,11 @@ module.exports = function(app){
 	app.get('/signin', User.showSignin);
 	app.get('/signup', User.showSignup);
 	app.get('/logout', User.logout);//logout
+	app.post('/user/verifyUserName', User.verifyUserName);//ajax验证注册名是否重复
 	app.get('/admin/user/list', User.signinRequired, User.adminRequired, User.list);//userlist page
+	app.get('/user/detail/:_id', User.signinRequired, User.userDetail);//用户个人资料查看修改页
+	app.post('/user/alterHead', User.signinRequired, User.alterHead);//修改头像并保存头像
+	app.post('/user/alterPassword', User.signinRequired, User.alterPassword);//修改用户密码，之后要退出当前账号
 	//所有admin相关的页面都设置用户权限，添加了相应的中间件
 	//Movie
 	app.get('/movie/:id', Movie.detail);//detail page

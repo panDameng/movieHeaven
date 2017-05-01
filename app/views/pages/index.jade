@@ -9,7 +9,7 @@ block content
 					.panel-heading
 						a(href="#",style="text-decoration:none; font-size:22px") #{cat.name}
 						a(href="/results?cat=#{cat._id}&p=0",style="text-decoration:none; display:inline-block; font-size:22px; float:right") 更多
-							img(src="/upload/icon_more.png", alt="more")
+							img(src="/upload/icon/icon_more.png", alt="more")
 					//-对电影进行分类
 					.panel-body
 						if cat.movies && cat.movies.length > 0
@@ -21,7 +21,7 @@ block content
 											if item.poster.indexOf('https:') > -1
 												img(src="#{item.poster}", alt="#{item.title}")
 											else
-												img(src="/upload/#{item.poster}", alt="#{item.title}")
+												img(src="/upload/poster/#{item.poster}", alt="#{item.title}")
 										.caption(style="text-align:center")
 											h3 #{item.title}
 											p: a.btn.btn-primary(href="/movie/#{item._id}", role="button") 观看预告片

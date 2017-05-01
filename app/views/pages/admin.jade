@@ -1,20 +1,5 @@
 extends ../layout
-//- {
-//-     "_id" : 1,
-//-     "director" : "新海诚",
-//-     "country" : "日本",
-//-     "title" : "你的名字",
-//-     "year" : "2016",
-//-     "poster" : "http://i0.hdslb.com/bfs/archive/530a927474fe98c4218f1cd5a528f4fb73336e94.png",
-//-     "language" : "日语",
-//-     "flash" : "http://v.youku.com/v_show/id_XMTg2MDY3OTkwNA==.html",
-//-     "summary" : "《你的名字》是由新海诚执导的一部日本动画电影，由神木隆之介、上白石萌音担任主要配音演员，人设是由参与过《我们仍未知道那天所看见的花的名字。》的田中将贺担当，作画导演由曾创作过《千与千寻》、《幽灵公主》的安藤雅司执笔。作品于2016年8月26日在日本上映。中国内地于2016年12月2日上映，分为日语原声中文字幕版和中文配音版2种版本。作品讲述了男女高中生在梦中相遇的幻想故事。",
-//-     "meta" : {
-//-         "creatAt" : "",
-//-         "update" : "",
-//-         "updateAt" : ISODate("2017-02-13T14:12:38.300Z")
-//-     }
-//- }
+
 block content
 	.container
 		.row
@@ -29,6 +14,7 @@ block content
 				.form-group
 					label.col-sm-2.control-label(for="inputCategory") 电影分类
 					.col-sm-10
+						//-name的取值方法值得注意，这样是在后台可以使用req.body.movie获得所有movie值，通过movie.获得所有的值
 						input#inputCategory.form-control(type="text", name="movie[categoryName]", value=movie.categoryName)
 				.form-group
 					label.col-sm-2.control-label 分类选择			
@@ -63,7 +49,7 @@ block content
 				.form-group
 					label.col-sm-2.control-label(for="uploadPoster") 海报上传
 					.col-sm-10
-						input#uploadPoster(type="file", name="uploadPoster")
+						input#uploadPoster(type="file",accept="image/png,image/gif,image/jpeg", name="uploadPoster")
 				.form-group
 					label.col-sm-2.control-label(for="inputFlash") 片源地址
 					.col-sm-10

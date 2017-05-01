@@ -15,6 +15,7 @@
     "mongoose": "^4.7.8",
     "serve-static": "^1.11.2",
     "should": "^11.2.0",
+    "sweetalert2": "^6.6.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
@@ -30,6 +31,10 @@
     "grunt-nodemon": "^0.4.2",
     "mocha": "^3.2.0",
     "morgan": "^1.8.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:panDameng/movieHeaven.git"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -1,0 +1,27 @@
+extends ../layout
+
+block content
+	.container
+		.row
+			h3 用户名: #{user.name}
+			h3 头像：
+				img#showHead(src='/upload/head-portrait/#{user.head}',width="64px") 
+				
+			.form-group
+				label(for="signupName", width="64px") 修改头像
+				input#alterHead.form-control(type="file", accept="image/png,image/gif,image/jpeg",style="display:inline-block")
+				button#alterHeadButton.btn.btn-primary(type="button") 确认修改
+			button#alterPwdButton.btn.btn-warning(type="button") 修改密码
+			form#passwordForm.form-horizontal(method="post", action="/user/alterPassword", style="display:none")
+				.form-group
+					label(for="newPassword1", width="64px") 请输入新密码：
+					input#newPassword1.form-control(type="password", name="user[newPassword1]", style="")
+				.form-group
+					label(for="newPassword2", width="64px") 请重复新密码：
+					input#newPassword2.form-control(type="password", name="user[newPassword2]", style="")
+				.form-group
+					label(for="oldPassword", width="64px") 请输入原密码：
+					input#oldPassword.form-control(type="password", name="user[oldPassword]", style="")
+				p#matchpsd_2(style="color:red; display:none;float:left")
+				button#submitPassword.btn.btn-success(type="submit",disabled="true") 确认修改
+	script(src="/js/alterUser.js")

@@ -5,6 +5,7 @@ block content
 		.row
 			.col-md-3
 			.col-md-6
+				p#alertDecide(style="display:none") #{alterEnter}
 				form(method="POST", action="/user/signin")
 					.modal-header(style="text-align:center") 请先登录
 					.modal-body
@@ -15,6 +16,7 @@ block content
 							label(for="signinPassword") 密码
 							input#signinPassword.form-control(name="user[password]",type="password")
 					.modal-footer
+						p#errorRemind(style="color:red; float:left") 密码错误
 						a(href="/signup") 还没有账户？
 						button.btn.btn-success(type="submit") 提交
 

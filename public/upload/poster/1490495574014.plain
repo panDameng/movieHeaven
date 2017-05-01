@@ -1,0 +1,413 @@
+					TypeScript新特性
+字符串相关的``符号：好处在于拼写html代码时更加简洁方便
+多行字符串显示
+ts：var content = `aaa
+	bbb
+	ccc`;
+js：var content = "aaa\nbbb\nccc";
+
+多行字符串模板
+ts：
+var name = "pgm";
+var getName = function () {
+    name = "pgm";
+}
+console.log(`hello ${name}`);
+console.log(`hello ${getName()}`);
+console.log(`<div><span>${name}  ${getName()}</span></div>`);
+js：
+var name = "pgm";
+var getName = function () {
+    name = "pgm";
+};
+console.log("hello " + name);
+console.log("hello " + getName());
+console.log("<div><span>" + name + "  " + getName() + "</span></div>");
+
+自动拆分字符串
+ts：
+function test(template, name, age) {
+    console.log(template);
+    console.log(name);
+    console.log(age);
+}
+var name = "pgm";
+var getAge = function () {
+    return 22;
+}
+test`my name is ${name}, I'm ${getAge()}`;
+js：
+function test(template, name, age) {
+    console.log(template);
+    console.log(name);
+    console.log(age);
+}
+var name = "pgm";
+var getAge = function () {
+    return 22;
+};//调用先建立数组，并将字符串拆分后存入数组中，之后在传入函数做参数
+(_a = ["my name is ", ", I'm ", ""], _a.raw = ["my name is ", ", I'm ", ""], test(_a, name, getAge()));
+var _a;
+
+
+
+
+
+参数类型：可指定,若不声明类型会进行类型判断，之后直接进行类型转换的话会报错
+ts ：
+var template：string = "pgm";
+js:
+var template = "pgm";
+使用any进行类型声明，转换时不会报错
+ts：
+var template：any = "pgm";
+template = 13;//不报错
+此外，还可以给函数的参数，以及返回进行类型声明
+ts：
+function getName(name: string) :string{
+    return name;
+}
+js：
+function getName(name) {
+    return name;
+}
+
+自定义类型， 类似于java的类申明
+class person{
+    name: string;
+    age: number;
+}
+var zhangsan: person = new person();
+zhangsan.name = "zhangsan";
+zhangsan.age = 18;
+
+
+为函数参数给定默认值：带默认的参数要放在参数列表最后
+ts：
+function test(a: string, b: string, c: string = "pgm") {
+    console.log(a);
+    console.log(b);
+    console.log(c);
+}
+test("xxx", "yyy");
+js：
+function test(a, b, c) {
+    if (c === void 0) { c = "pgm"; }
+    console.log(a);
+    console.log(b);
+    console.log(c);
+}
+test("xxx", "yyy");
+
+
+定义参数可选（参数后加“?”）
+function test(a: string, b?: string, c: string = "pgm") {
+    console.log(a);
+    console.log(b.length);//由于b为可选参数，所以报错，传入可选参数时需要对可选参数进行判断。
+    console.log(c);
+}
+test("xxx");
+可选参数和默认参数都必须放在必选参数列表后面，否则报错。
+顺序一般为  必选， 可选， 默认
+
+
+
+
+			函数新特性
+Rest和Spread操作符：
+声明任意数量的方法参数
+ts：
+function test(...args) {
+    args.forEach(function (arg) {
+        console.log(arg);
+    });
+}
+test(1, 2, 3);
+test(4, 5, 6, 7, 8);
+js：
+function test() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    args.forEach(function (arg) {
+        console.log(arg);
+    });
+}
+test(1, 2, 3);
+test(4, 5, 6, 7, 8);
+向函数传入任意参数
+ts：
+function test(a, b, c) {
+    console.log(a);
+    console.log(b);
+    console.log(c);
+}
+var args = [1, 2];//传入参数不足三个，c为undefined
+test(...args);
+test(4, 5, 6, 7);//传入参数多余三个，7无法接收
+js：
+function test(a, b, c) {
+    console.log(a);
+    console.log(b);
+    console.log(c);
+}
+var args = [1, 2];
+test.apply(void 0, args);
+test(4, 5, 6, 7);
+
+generator函数：控制函数的执行过程，手工暂停和恢复代码执行，相当于断点执行函数
+ts：
+function* doSomething(){
+ //*声明成了generator函数 
+console.log("start");
+  
+  
+yield;//相当于设置了断点在此处
+  
+  
+console.log("finish");
+
+}
+
+
+var func1 = doSomething();//必须先进行赋值才能使用
+
+func1.next();//输出结果
+
+start，只执行到yield处
+
+
+func1.next();
+//输出结果finish，
+执行到下一yield处，无则执行完
+
+destructuring析构表达式：通过表达式将对象或者数组拆分成任意数量的变量
+对象中获取变量：
+ts：
+function getStock() {
+    return {
+        code: "IBM",
+        price: {
+            price1: 100,
+            price2: 200,
+        }
+    }
+}
+var {code:codex, price:{price2}} = getStock();//变量名要相同，或者这样取别名
+console.log(codex);
+console.log(price2);
+js：
+function getStock() {
+    return {
+        code: "IBM",
+        price: {
+            price1: 100,
+            price2: 200,
+        }
+    };
+}
+var _a = getStock(), codex = _a.code, price2 = _a.price.price2; 
+console.log(codex);
+console.log(price2);
+数组中获取变量：
+ts：
+var arr1 = [1, 2, 3, 4];
+var [, num2, , num3] = arr1;//获得指定位置的数
+
+var [num1, num2, ...others] = arr1;//获得指定的数，其余存入新的数组
+
+function doSomething([num1, num2, ...others]) {//传入析构表达式作为参数
+    console.log(num1);
+    console.log(num2);
+    console.log(others);
+}
+doSomething(arr1);//调用数组传入
+js：
+var arr1 = [1, 2, 3, 4];
+var num2 = arr1[1], num3 = arr1[3];
+var num1 = arr1[0], num2 = arr1[1], others = arr1.slice(2);
+
+function doSomething(_a) {
+    var num1 = _a[0], num2 = _a[1], others = _a.slice(2);
+    console.log(num1);
+    console.log(num2);
+    console.log(others);
+}
+doSomething(arr1);
+
+
+
+箭头表达式:用来声明匿名函数，消除传统匿名函数this指针的问题
+最简单的例子：
+ts：
+var sum = (arg1, arg2) => arg1 + arg2;
+var sum = (arg1, arg2) => {
+	return arg1 + arg2;//多行声明时要带上{}和return
+}
+js:
+var sum = function (arg1, arg2) { return arg1 + arg2; };
+声明无参的匿名方法
+ts：
+var sum = () => {
+};
+js：
+var sum = function () {
+};
+用法举例：
+ts：
+var myArray = [1, 2, 3, 4];
+console.log(myArray.filter(value => value % 2 == 0));//参数为函数时使用
+js：
+var myArray = [1, 2, 3, 4];
+console.log(myArray.filter(function (value) { return value % 2 == 0; }));
+在定时器上的使用：
+ts：
+function getStock(name:string) {
+    this.name = name;
+    setInterval(() => {		//定时器需要传入函数和定时秒速，函数又箭头代替
+        console.log(name);
+    }, 1000);
+}
+js：
+function getStock(name) {
+    this.name = name;
+    setInterval(function () {
+        console.log(name);
+    }, 1000);
+}
+
+for of 循环  ：对比for in 以及 foreach
+ts：
+var arr = [1, 2, 3, 4];
+arr.desc = "four number";//ts报错，js正确
+
+arr.forEach(value => console.log(value));//无法使用break等在循环中打断循环
+
+for (var n in arr) {
+    console.log(n);//输出的是下标，及键值对的键
+}
+
+for (var m of arr) {//既可以break打断循环，又能输出值
+    console.log(m);
+    if (m > 2)
+        break;
+}
+js:
+var arr = [1, 2, 3, 4];
+arr.desc = "four number"; //ts报错，js正确
+arr.forEach(function (value) { return console.log(value); }); //无法使用break等在循环中打断循环
+for (var n in arr) {
+    console.log(n); //输出的是下标，及键值对的键
+}
+for (var _i = 0, arr_1 = arr; _i < arr_1.length; _i++) {
+    var m = arr_1[_i];
+    console.log(m);
+    if (m > 2)
+        break;
+}
+
+
+
+
+
+
+
+
+
+			typescript的类
+类的声明及继承：
+对类的属性和方法可以声明访问权限修饰符：public， protected， private
+public：内部外部都能访问， 默认为public
+protected：内部及子类能访问
+private：内部能访问
+class person {
+    constructor() {//构造方法，无法在外部访问，new时调用一次， 和java一样可以带参数重写
+        console.log("haha");
+    }
+    name;//属性
+    eat() {//方法
+        console.log(`eat some food!`);
+    }
+}
+class emplyee extends person{//extends继承
+    constructor() {
+        super();//若要重写子类的构造方法必须使用super调用父类，否则报错
+    }
+    code: String;//和java一样获得父类的所有非私有属性和方法;
+    work() {
+        super.eat();//使用才能调用父类方法
+        this.doWork();//本类的方法直接调用
+    }
+    private doWork() {//不能直接调用该方法了
+        console.log(`I'm working`);
+    }
+}
+var p1 = new person();//实例化
+p1.name = "pgm";
+p1.eat();
+泛型：
+var workers: Array<person> = [];//声明为泛型数组；
+workers[1] = new person();
+workers[2] = new emplyee();//能够存入子类
+workers[3] = 2;//报错
+
+接口：用来建立某种代码约定， 使得在调用某个方法或者创建新的类时必须遵循接口的约定
+用法1：为函数参数设定特殊类型
+interface Iperson {
+    name: string;
+    age: number;
+}
+class Person{
+    constructor(public config: Iperson) {//接口作为了参数的类型声明
+        
+    }
+}
+var p1 = new Person({
+    name: "zhangsan",
+    age:22,//不这样传参报错
+});
+
+用法2：实现接口的类，必须重写里面的方法（和java相似）
+interface Animal { 
+    eat();
+}
+class Sheep implements Animal{
+    eat() {
+        console.log(`eat gress`);
+    };
+}
+
+模块（模块及是文件）：帮助开发者将代码分割为可重用单元，并决定模块中那些资源（类，方法，变量）暴露给外部使用，哪些资源只能在模块内使用
+export暴露给外部文件的
+import导入暴露出的文件
+a.ts如下：
+export var prop1;//暴露的部分外部文件才能获取
+var prop2;
+
+
+export function func1(){
+
+}
+
+function func2(){
+
+}
+export class person1{
+
+}
+class person2{
+	
+}
+b.ts如下：
+import {prop1, func1, person1} from "./a";//获取声明方式，填入要获取的具体内容
+console.log(prop1);
+new person1;
+
+注解：为程序的元素（类，方法，变量）加上更直观的说明，说明与业务逻辑无关，可供工具和框架使用
+
+
+类型定义文件（*.d.ts）：在typescript中使用以有的工具包 如jquery
+及导入对应的（*.d.ts）文件
+使用typings获得对应文件的类型定义文件
+
