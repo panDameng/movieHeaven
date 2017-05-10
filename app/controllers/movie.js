@@ -21,7 +21,7 @@ exports.detail = function(req, res){
 			.exec(function(err, comments){
 				console.log(comments);
 				res.render('detail', {
-					title:'imooc后台更新页',
+					title:'影片更新',
 					movie:movie,
 					comments:comments
 				})
@@ -37,7 +37,7 @@ exports.new = function(req, res){//配置路由 后台录入页
 				var movie = [{_id:0,}];
 			}
 			res.render('admin', {
-				title:'imooc后台录入页',
+				title:'影片录入',
 				categories:categories,
 
 				movie:{
@@ -63,7 +63,7 @@ exports.update = function(req, res){
 		Movie.findById(id, function(err, movie){
 			Category.find({}, function(err, categories){
 				res.render('admin', {
-					title:'imooc后台更新页',
+					title:'影片更新',
 					movie:movie,
 					categories:categories
 				})
@@ -207,13 +207,22 @@ exports.save = function(req, res){
 
 //list page
 exports.list = function(req, res){//配置路由  列表页
+	var q = req.query.q;
+	var page = parseInt(req.query.p, 10) || 0;
+	var count = 8;//设置每页6份数据
+	var index = page * count;//页数乘以条数
 	Movie.fetch(function(err, movies){//查询操作
 		if(err){
 			console.log(err);
 		}
+		var results = movies.slice(index, index + count);
 		res.render('list', {
-			title:'imooc列表页',
-			movies:movies
+			title:'影片列表',
+			keyword:q,
+			// query:'q=' + q,
+			currentPage:(page + 1),
+			totalPage:Math.ceil(movies.length / count),//对得到数据向上取整
+			movies:results
 		})
 	})
 }
@@ -233,6 +242,30 @@ exports.del = function(req, res){
 	}
 }
 
+//search
+exports.search = function(req, res){//配置路由 分类搜索页
+	var q = req.query.q;
+	var page = parseInt(req.query.p, 10) || 0;
+	var count = 6;//设置每页6份数据
+	var index = page * count;//页数乘以条数
+//通过正则达到模糊匹配
+	Movie
+		.find({title : new RegExp(q + '.*', 'i')})
+		.exec(function(err, movies){
+			if(err){
+				console.log(err);
+			}
+			//var results = movies.slice(index, index + count);
+			res.render('list', {//如果本地user存在，则渲染时就能读到user信息
+				title:'搜索影片结果',
+				keyword:q,
+				query:'q=' + q,
+				//currentPage:(page + 1),
+				//totalPage:Math.ceil(movies.length / count),//对得到数据向上取整
+				movies:movies
+			})
+		})
+}
 
 
 

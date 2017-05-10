@@ -8,6 +8,9 @@ var path = require('path');
 //signup 注册
 exports.signup = function(req, res){
 	var _user = req.body.user;
+	console.log(235677);
+	console.log(_user.password);
+	console.log(_user.name);
 	User.findOne({name:_user.name}, function(err, user){
 		if(err){
 			console.log(err);
@@ -29,14 +32,14 @@ exports.signup = function(req, res){
 //登出跳转页
 exports.showSignup = function(req, res){//配置路由  列表页
 	res.render('signup', {
-		title:'注册页面',
+		title:'账户注册',
 	})
 }
 
 //登录跳转页
 exports.showSignin = function(req, res){//配置路由  列表页
 	res.render('signin', {
-		title:'登录页面',
+		title:'账户登录',
 	})
 }
 
@@ -46,7 +49,8 @@ exports.signin = function(req, res){
 	var _user = req.body.user;
 	var name = _user.name;
 	var password = _user.password;
-
+	console.log(215125);
+	console.log(password);
 	User.findOne({name:name}, function(err, user){
 		if(err){
 			console.log(err);
@@ -62,8 +66,9 @@ exports.signin = function(req, res){
 				req.session.user = user;
 				return res.redirect('/');
 			}else{
-				return res.redirect('/signin');
+				console.log(isMatch);
 				console.log('Password is not matched');
+				return res.redirect('/signin');
 			}
 		})
 	})
@@ -95,7 +100,7 @@ exports.list = function(req, res){//配置路由  列表页
 			console.log(err);
 		}
 		res.render('userlist', {
-			title:'用户列表页',
+			title:'用户列表',
 			users:users
 		})
 	})
@@ -126,7 +131,7 @@ exports.userDetail = function(req, res){
 		console.log(23434);
 		console.log(user);
 		res.render('user_detail',{
-			title:'个人资料',
+			title:'用户个人资料',
 			user:user
 		})
 	});
@@ -193,7 +198,7 @@ exports.alterPassword = function(req, res){
 				})
 				delete req.session.user;
 				res.render('signin',{
-					title:'登录页面',
+					title:'账户登录',
 					alterEnter:1//该值为1表示进入登录页面的方式为修改密码后，便于显示弹窗
 				})
 				// res.josn(1);
@@ -207,4 +212,45 @@ exports.alterPassword = function(req, res){
 
 //	delete req.session.user;
 //	delete app.locals.user;//登出时同时删除本地user信息
+}
+
+	//删除用户
+	// list delete user
+exports.del = function(req, res){
+	var id = req.query.id;//query获得路由中？后携带的参数
+	console.log(233432423);
+	if(id){
+		User.remove({_id:id}, function(err, user){
+			if(err){
+				console.log(err);
+			}else{
+				res.json({success:1})
+			}
+		})
+	}
+}
+
+//search
+exports.search = function(req, res){//配置路由 分类搜索页
+	var q = req.query.q;
+	var page = parseInt(req.query.p, 10) || 0;
+	var count = 6;//设置每页6份数据
+	var index = page * count;//页数乘以条数
+//通过正则达到模糊匹配
+	User
+		.find({name : new RegExp(q + '.*', 'i')})
+		.exec(function(err, users){
+			if(err){
+				console.log(err);
+			}
+			//var results = movies.slice(index, index + count);
+			res.render('userlist', {//如果本地user存在，则渲染时就能读到user信息
+				title:'用户列表',
+				keyword:q,
+				query:'q=' + q,
+				//currentPage:(page + 1),
+				//totalPage:Math.ceil(movies.length / count),//对得到数据向上取整
+				users:users
+			})
+		})
 }

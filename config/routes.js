@@ -26,6 +26,9 @@ module.exports = function(app){
 	app.get('/user/detail/:_id', User.signinRequired, User.userDetail);//用户个人资料查看修改页
 	app.post('/user/alterHead', User.signinRequired, User.alterHead);//修改头像并保存头像
 	app.post('/user/alterPassword', User.signinRequired, User.alterPassword);//修改用户密码，之后要退出当前账号
+	app.delete('/admin/user/list', User.signinRequired, User.adminRequired, User.del);//删除用户
+	app.get('/admin/user/list/results', User.signinRequired, User.adminRequired, User.search);//列表搜索用户
+
 	//所有admin相关的页面都设置用户权限，添加了相应的中间件
 	//Movie
 	app.get('/movie/:id', Movie.detail);//detail page
@@ -34,14 +37,18 @@ module.exports = function(app){
 	app.post('/admin/movie', User.signinRequired, User.adminRequired, Movie.savePoster, Movie.save);//admin post movie
 	app.get('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.list);//list page
 	app.delete('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.del);//movie delete
+	app.get('/admin/movie/list/results', User.signinRequired, User.adminRequired, Movie.search);//列表搜索电影
 
 	//Comment
 	app.post('/user/comment', User.signinRequired, Comment.save);//admin comment
 
 	//category
-	app.get('/admin/category/new', User.signinRequired, User.adminRequired, Category.new);
+	//app.get('/admin/category/new', User.signinRequired, User.adminRequired, Category.new);
+	app.get('/admin/category/update/:id', User.signinRequired, User.adminRequired, Category.update);//admin update page
 	app.post('/admin/category', User.signinRequired, User.adminRequired, Category.save);
 	app.get('/admin/category/list', User.signinRequired, User.adminRequired, Category.list);
+	app.delete('/admin/category/list', User.signinRequired, User.adminRequired, Category.del);//movie delete
+	app.get('/admin/category/list/results', User.signinRequired, User.adminRequired, Category.search);//列表搜索分类
 
 	//results
 	app.get('/results', Index.search);//分类搜索

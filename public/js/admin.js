@@ -44,5 +44,9 @@ $(function(){
 		}
 		
 	})
+	//电影分类的默认选中
+	$("input[type='radio']:first").attr("checked",true); 
 
+	//修改header中的搜索框action，使之能实现电影的列表搜索
+	$("#headerForm").attr("action", "/admin/movie/list/results");
 })

@@ -23,5 +23,6 @@ block content
 											else
 												img(src="/upload/poster/#{item.poster}", alt="#{item.title}")
 										.caption(style="text-align:center")
-											h3 #{item.title}
-											p: a.btn.btn-primary(href="/movie/#{item._id}", role="button") 观看预告片
+											h4: a(href="/movie/#{item._id}",target="_blank") #{item.title}
+											//- h3 #{item.title}
+											//- p: a.btn.btn-primary(href="/movie/#{item._id}", role="button") 观看预告片

@@ -1,11 +1,11 @@
 .container
 	.row
-		h1 #{title}
+		h1: a(href="/") 交大影院
 		.page-header.clearfix
 		.col-md-4
-			small 二次元动漫迷
+			small #{title}
 		.col-md-8
-			form(method="GET", action="/results")
+			form(method="GET", id="headerForm", action="/results")
 				.input-group.col-sm-4.pull-right
 					input.form-control(type="text", name="q", value="输入电影名称",onfocus="this.value='';this.focus()")
 					span.input-group-btn
@@ -14,10 +14,17 @@
 	.container
 		.navbar-header
 			a.navbar-brand(href="/") 重度科幻迷
-		if user 
+		if user
 			p.navbar-text.navbar-right
 				span 欢迎您, 
 					a(href="/user/detail/#{user._id}") #{user.name}
+					//-如果是管理员用户显示其可操作
+				if user.role > 1
+					span &nbsp;您是管理用户,您可以&nbsp;&nbsp;
+						a(href="/admin/movie/new") 添加新电影&nbsp;&nbsp;&nbsp;&nbsp;
+						a(href="/admin/movie/list") 管理电影&nbsp;&nbsp;&nbsp;&nbsp;
+						a(href="/admin/category/list") 管理分类&nbsp;&nbsp;&nbsp;&nbsp;
+						a(href="/admin/user/list") 管理用户
 				span &nbsp;|&nbsp;
 				a.navbar-link(href="/logout") 登出
 		else
@@ -39,7 +46,7 @@
 						input#signinPassword1.form-control(name="user[password]",type="password")
 					.form-group
 						label(for="signinPassword2") 重复密码
-						input#signinPassword2.form-control(name="user[password]",type="password")
+						input#signinPassword2.form-control(type="password")
 				.modal-footer
 					p#matchpsd(style="color:red; display:none;float:left") 两次密码不匹配
 					p#verifyUserName(style="color:red; display:none;float:left")

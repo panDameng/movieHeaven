@@ -10,7 +10,7 @@ exports.index = function(req, res){//配置路由 index页
 				console.log(err);
 			}
 			res.render('index', {//如果本地user存在，则渲染时就能读到user信息
-			title:'imooc首页',
+			title:'影院首页',
 			categories:categories
 			})
 		})
@@ -40,7 +40,7 @@ exports.search = function(req, res){//配置路由 分类搜索页
 				var movies = category.movies || [];//存在返回对应数据，不存在则返回空数组
 				var results = movies.slice(index, index + count);
 				res.render('results', {//如果本地user存在，则渲染时就能读到user信息
-					title:'imooc结果列表页',
+					title:'电影搜索',
 					keyword:category.name,
 					query:'cat=' + catId,
 					currentPage:(page + 1),
@@ -57,7 +57,7 @@ exports.search = function(req, res){//配置路由 分类搜索页
 				}
 				var results = movies.slice(index, index + count);
 				res.render('results', {//如果本地user存在，则渲染时就能读到user信息
-					title:'imooc结果列表页',
+					title:'电影搜索',
 					keyword:q,
 					query:'q=' + q,
 					currentPage:(page + 1),

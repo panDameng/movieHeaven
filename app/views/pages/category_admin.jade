@@ -8,6 +8,7 @@ block content
 					label.col-sm-2.control-label(for="inputCategory") 电影分类
 					.col-sm-10
 						input#inputCategory.form-control(type="text", name="category[name]", value="#{category.name}")
+						input#inputCategoryId.form-control(type="text", name="category[id]", value="#{category._id}", style="display:none")
 				.form-group
 					.col-sm-offset-2.col-sm-10
 					button.btn.btn-success(type="submit") 录入

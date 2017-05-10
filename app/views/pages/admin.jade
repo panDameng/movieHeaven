@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-	.container
+	.container(style="margin-top:20px")
 		.row
 			//-enctype="multipart/form-data" 将数据分隔，从而实现不同数据混合上传
 			form.form-horizontal(method="post", action="/admin/movie",enctype="multipart/form-data")
@@ -11,13 +11,13 @@ block content
 					label.col-sm-2.control-label 豆瓣同步
 					.col-sm-10
 						input#douban.form-control(type="text")
+				//- .form-group
+				//- 	label.col-sm-2.control-label(for="inputCategory") 电影分类
+				//- 	.col-sm-10
+				//- 		//-name的取值方法值得注意，这样是在后台可以使用req.body.movie获得所有movie值，通过movie.获得所有的值
+				//- 		input#inputCategory.form-control(type="text", name="movie[categoryName]", value=movie.categoryName)
 				.form-group
-					label.col-sm-2.control-label(for="inputCategory") 电影分类
-					.col-sm-10
-						//-name的取值方法值得注意，这样是在后台可以使用req.body.movie获得所有movie值，通过movie.获得所有的值
-						input#inputCategory.form-control(type="text", name="movie[categoryName]", value=movie.categoryName)
-				.form-group
-					label.col-sm-2.control-label 分类选择			
+					label.col-sm-2.control-label 电影分类			
 					each cat in categories
 						label.radio-inline
 							if movie._id
@@ -41,7 +41,14 @@ block content
 				.form-group
 					label.col-sm-2.control-label(for="inputLanguage") 语言
 					.col-sm-10
-						input#inputLanguage.form-control(type="text", name="movie[language]", value="#{movie.language}")
+						input#inputLanguage.form-control(type="text", name="movie[language]", value="#{movie.language}", list="opt")
+						//-选项卡
+						datalist#opt
+							option(value="中文")
+							option(value="英语")
+							option(value="日语")
+							option(value="韩语")
+							option(value="其他语种")
 				.form-group
 					label.col-sm-2.control-label(for="inputPoster") 海报地址
 					.col-sm-10

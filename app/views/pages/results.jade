@@ -13,11 +13,14 @@ block content
 							.col-md-2
 								.thumbnail
 									a(href="/movie/#{item._id}")
-										img(src="#{item.poster}", alt="#{item.title}")
+										//-img(src="#{item.poster}", alt="#{item.title}")
+										if item.poster.indexOf('https:') > -1
+												img(src="#{item.poster}", alt="#{item.title}")
+											else
+												img(src="/upload/poster/#{item.poster}", alt="#{item.title}")
 									.caption(style="text-align:center")
-										h3 #{item.title}
-										p: a.btn.btn-primary(href="/movie/#{item._id}", role="button") 观看预告片
-			ul.pagination
+										h4: a(href="/movie/#{item._id}",target="_blank") #{item.title}
+			ul.pagination(style="margin:0 auto; width:200px;display: inline;")
 				- for(var i = 0; i<totalPage; i++){
 					- if(currentPage == (i+1)){
 						li.active
